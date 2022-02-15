@@ -1,5 +1,7 @@
+import { Input, VStack, Wrap, Heading, CircularProgress, HStack, IconButton } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
-import ImageContainer from '../../components/image_container'
+import { SearchIcon, StarIcon } from "@chakra-ui/icons"
+import SerieContainer from '../../components/series/serie_portrait'
 
 
 const Shows = () => {
@@ -17,16 +19,29 @@ const Shows = () => {
     const setNameInput = (e) => {
         setName(e.target.value)
     }
-    return (      
-        <div >
-            <input className="inputName" name="serieName" value={name} onChange={(e) => setNameInput(e)}/>     
-            <div className='container'>{
-                isLoading? <p>Loading...</p> : series.length == 0? <p>No series data</p>:
-                series.map((serie) => <ImageContainer serie={serie}/>)
-            }</div>    
-            
-            
-        </div>
+    return (
+        <VStack >
+            <HStack >
+                <Heading >Tv Shows</Heading>
+                <IconButton colorScheme='blue'
+                    aria-label='Favorites'
+                    
+                    icon={<StarIcon />} />
+            </HStack>
+
+            <Input type='text' onChange={(e) => setNameInput(e)} />
+            {
+                isLoading ? <CircularProgress isIndeterminate color='green.300' /> : series.length == 0 ? <Heading>No series data</Heading> :
+                    <Wrap>
+                        {
+                            series.map((serie) => <SerieContainer serie={serie} />)
+                        }
+                    </Wrap>
+
+            }
+
+
+        </VStack>
     )
 }
 
